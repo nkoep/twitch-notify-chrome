@@ -53,7 +53,7 @@ function getStreamInfo(streamName, callback, errorCallback) {
 }
 
 function getStoredStreams(callback) {
-  chrome.storage.sync.get({"streams": ["bla"]}, function(result) {
+  chrome.storage.sync.get({"streams": ["gocnak"]}, function(result) {
     callback(result.streams)
   });
 }
