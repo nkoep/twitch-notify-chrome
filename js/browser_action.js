@@ -53,18 +53,18 @@ function getStreamInfo(streamName, callback, errorCallback) {
 }
 
 function getStoredStreams(callback) {
-  chrome.storage.sync.get({"streams": []}, function(result) {
+  chrome.storage.sync.get({"streams": ["bla"]}, function(result) {
     callback(result.streams)
   });
 }
 
 function updateStreamList(streams) {
   chrome.runtime.getBackgroundPage(function(page) {
-    var list = document.getElementById("stream-list");
+    var list = $("#stream-list");
     streams.forEach(function(stream, idx) {
-      var li = document.createElement("li");
-      li.appendChild(document.createTextNode(stream));
-      list.appendChild(li);
+      var li = $("<li></li>");
+      li.text(stream);
+      list.append(li);
     });
   });
 }
