@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      * {
+        white-space: nowrap;
+      }
+      body {
+        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+        font-size: 75%;
+      }
+      #status {
+        /* avoid an excessively wide status text */
+        white-space: pre;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 400px;
+      }
+    </style>
+    <script src="browser_action.js"></script>
+  </head>
+  <body>
+    <button type="button">Add stream</button>
+    <ul id="stream-list"></ul>
+    <input id="enable-notifications" type="checkbox" name="enable-notifications"><label for="enable-notifications">Enable notifications</label>
+  </body>
+</html>
+
