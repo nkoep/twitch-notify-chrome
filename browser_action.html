@@ -1,16 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <title>Getting Started Extension's Popup</title>
+    <title>twitch-notify</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="bower_components/semantic-ui-form/form.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/semantic-ui-input/input.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/semantic-ui-icon/icon.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/semantic-ui-button/button.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/semantic-ui-table/table.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/semantic-ui-checkbox/checkbox.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <!-- JS -->
     <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="bower_components/semantic-ui-form/form.js"></script>
+    <script src="bower_components/semantic-ui-checkbox/checkbox.js"></script>
     <script src="js/browser_action.js"></script>
   </head>
   <body>
-    <button type="button">Add stream</button>
-    <ul id="stream-list"></ul>
-    <input id="enable-notifications" type="checkbox" name="enable-notifications">
-    <label for="enable-notifications">Enable notifications</label>
+    <form id="channel">
+      <div class="ui fluid action input">
+        <input type="text" placeholder="Channel">
+        <div id="add-channel" class="ui icon button">
+          <i class="add user icon"></i>
+        </div>
+      </div>
+    </form>
+
+    <table id="channel-list" class="ui striped table">
+      <thead>
+        <tr>
+          <th>Channel</th>
+          <th>Viewers</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="ui toggle checkbox">
+      <input id="enable-notifications" type="checkbox" name="enable-notifications">
+      <label for="enable-notifications">Enable notifications</label>
+    </div>
   </body>
 </html>
 

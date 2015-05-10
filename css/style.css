@@ -1,23 +1,23 @@
 body {
-  background-color: #ededed;
-  font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-  font-size: 75%;
+  font-size: 13px;
   white-space: nowrap;
 }
 
-ul {
-  list-style-type: none;
+a,
+a:link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 250ms;
+  -webkit-transition: color 250ms;
 }
 
-ul li {
-  color: red;
+a:hover,
+a:active {
+  color: #717171;
 }
 
-#status {
-  /* avoid an excessively wide status text */
-  white-space: pre;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 400px;
+.ui.table th,
+.ui.table td {
+  text-align: center;
 }
 

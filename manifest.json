@@ -20,8 +20,8 @@
     "default_popup": "browser_action.html"
   },
   "background": {
-    "scripts": ["js/background.js"],
-    "persistent": false
+    "page": "background.html",
+    "persistent": true
   }
 }
 
