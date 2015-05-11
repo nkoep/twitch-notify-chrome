@@ -69,7 +69,7 @@ Channels.prototype = {
 
   addChannel: function(name) {
     if (name && this.find_(name) === -1) {
-      this.channelList_.push(new Channel(name));
+      this.channelList_.unshift(new Channel(name));
       this.save_();
       return true;
     }
