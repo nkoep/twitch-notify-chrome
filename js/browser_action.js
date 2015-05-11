@@ -4,6 +4,7 @@ function getChannels(callback) {
   });
 }
 
+// XXX: Yummy, how disgusting...
 function createTableRow(name, isLive, viewers) {
   var color = isLive ? "red" : "gray";
   var baseUrl = "https://twitch.tv/";
@@ -34,7 +35,6 @@ function updateChannelList(channels) {
       tbody.append(
         createTableRow(channel.name, channel.isLive, channel.viewers));
     });
-
     // Hook up the remove button callbacks.
     $(".remove-channel").click(function() {
       channels.removeChannel($(this).data("name"));
@@ -48,6 +48,7 @@ function initializeUi() {
   addChannel.click(function() {
     var channel = channelInput.val();
     getChannels(function(channels) {
+      // Clear the input field if we successfully added the channel.
       if (channels.addChannel(channel)) {
         channelInput.val("");
       }
@@ -60,9 +61,17 @@ function initializeUi() {
     addChannel.click();
   });
   var showNotifications = $("#show-notifications");
+  // TODO: Add a settings API to background.js that wraps calls to
+  //       chrome.storage.
+  chrome.storage.local.get({"show-notifications": false}, function(result) {
+    var state = result["show-notifications"] ? "check" : "uncheck";
+    // FIXME: There is a bug in semantic-ui's 2.12.22 button module that
+    //        prevents the checkbox state to be set programmatically.
+    showNotifications.checkbox(state);
+  });
   showNotifications.checkbox("setting", "onChange", function() {
     var state = showNotifications.checkbox("is checked");
-    console.log("TODO: toggle notifications");
+    chrome.storage.local.set({"show-notifications": state});
   });
   channelInput.focus();
 }

@@ -7,6 +7,8 @@ function log(message) {
 }
 
 // TODO: Notify when we notice that streams went live.
+// TODO: Update the browser action icon via
+//         chrome.browserAction.setIcon({"path": "img/icon.png"});
 function notify() {
   chrome.notifications.create("bla", {
     "type": "basic", "iconUrl": "img/icon.svg", "title": "remove channel",
