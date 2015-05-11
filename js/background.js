@@ -6,14 +6,28 @@ function log(message) {
   console.log(timestamp() + ": " + message);
 }
 
-// TODO: Notify when we notice that streams went live.
-// TODO: Update the browser action icon via
-//         chrome.browserAction.setIcon({"path": "img/icon.png"});
-function notify() {
-  chrome.notifications.create("bla", {
-    "type": "basic", "iconUrl": "img/icon.svg", "title": "remove channel",
-    "message": channel
+function updateBrowserAction(channels) {
+  var icon = (channels.length > 0) ? "icon" : "icon_gray";
+  chrome.browserAction.setIcon({"path": "img/" + icon + ".png"});
+}
+
+function sendChannelNotification(channels) {
+  var channelNames = [];
+  channels.forEach(function(channel, idx) {
+    channelNames.push(channel.name);
   });
+  if (channels.length > 0) {
+    chrome.storage.local.get({"show-notifications": true}, function(result) {
+      if (result["show-notifications"]) {
+        chrome.notifications.create("twitch-notify", {
+          "type": "basic", "iconUrl": "img/icon.svg",
+          "title": "Channel(s) went live",
+          // TODO: Adjust the plurality of the message.
+          "message": channelNames.join(", ") + " are now live"
+        });
+      }
+    });
+  }
 }
 
 function Channel(name) {
@@ -103,8 +117,9 @@ Channels.prototype = {
   },
 
   save_: function() {
-    chrome.storage.sync.set({"channels": this.getChannelNames_()});
-    this.signalChange_();
+    chrome.storage.sync.set({"channels": this.getChannelNames_()}, function() {
+      channels.poll();
+    }.bind(this));
   },
 
   foreach: function(callback) {
@@ -115,10 +130,29 @@ Channels.prototype = {
 
   poll: function() {
     var promises = [];
+    var states = {};
     this.foreach(function(channel) {
+      // Cache the old state.
+      states[channel.name] = channel.isLive;
+      // Poll for the new state.
       promises.push(channel.pollState());
     });
     $.when.apply($, promises).done(function() {
+      // Check whether any new channels went live.
+      var liveChannels = [];
+      var newlyLiveChannels = [];
+      this.foreach(function(channel) {
+        if (channel.isLive) {
+          liveChannels.push(channel);
+          if (!states[channel.name]) {
+            // The channel was offline before.
+            newlyLiveChannels.push(channel);
+          }
+        }
+      });
+      updateBrowserAction(liveChannels);
+      sendChannelNotification(newlyLiveChannels);
+
       // The channel states are resolved in the Channel object, so we only need
       // to inform the UI about the fact that channel states were updated here.
       this.signalChange_();
