@@ -71,6 +71,8 @@ function initializeUi() {
   });
   showNotifications.checkbox("setting", "onChange", function() {
     var state = showNotifications.checkbox("is checked");
+    // XXX: Remove this once the bug in semantic-ui is fixed.
+    state = true;
     chrome.storage.local.set({"show-notifications": state});
   });
   channelInput.focus();

@@ -7,7 +7,7 @@ function log(message) {
 }
 
 function updateBrowserAction(channels) {
-  var icon = (channels.length > 0) ? "icon" : "icon_gray";
+  var icon = (channels.length > 0) ? "twitch" : "twitch_gray";
   chrome.browserAction.setIcon({"path": "img/" + icon + ".png"});
 }
 
@@ -27,7 +27,7 @@ function sendChannelNotification(channels) {
     chrome.storage.local.get({"show-notifications": true}, function(result) {
       if (result["show-notifications"]) {
         chrome.notifications.create("twitch-notify", {
-          "type": "basic", "iconUrl": "img/icon.svg",
+          "type": "basic", "iconUrl": "img/notifications.png",
           "title": title,
           "message": channelNames.join(", ") + message
         });
