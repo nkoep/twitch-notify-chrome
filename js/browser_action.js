@@ -4,7 +4,7 @@ function getChannels(callback) {
   });
 }
 
-// XXX: Yummy, how disgusting...
+// TODO: Use underscore.js' template system to generate the table.
 function createTableRow(name, isLive, viewers) {
   var color = isLive ? "red" : "gray";
   var baseUrl = "https://twitch.tv/";
@@ -65,7 +65,7 @@ function initializeUi() {
   //       chrome.storage.
   chrome.storage.local.get({"show-notifications": false}, function(result) {
     var state = result["show-notifications"] ? "check" : "uncheck";
-    // FIXME: There is a bug in semantic-ui's 2.12.22 button module that
+    // FIXME: There is a bug in semantic-ui's 1.12.2 button module that
     //        prevents the checkbox state to be set programmatically.
     showNotifications.checkbox(state);
   });

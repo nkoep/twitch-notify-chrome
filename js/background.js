@@ -17,13 +17,19 @@ function sendChannelNotification(channels) {
     channelNames.push(channel.name);
   });
   if (channels.length > 0) {
+    if (channels.length === 1) {
+      var title = "New channel is live";
+      var message = " is now streaming";
+    } else {
+      var title = "New channels are live";
+      var message = " are now streaming";
+    }
     chrome.storage.local.get({"show-notifications": true}, function(result) {
       if (result["show-notifications"]) {
         chrome.notifications.create("twitch-notify", {
           "type": "basic", "iconUrl": "img/icon.svg",
-          "title": "Channel(s) went live",
-          // TODO: Adjust the plurality of the message.
-          "message": channelNames.join(", ") + " are now live"
+          "title": title,
+          "message": channelNames.join(", ") + message
         });
       }
     });
