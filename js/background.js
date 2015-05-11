@@ -1,11 +1,12 @@
 function timestamp() {
-  return (new Date()).toTimeString();
+  return Date.now();
 }
 
 function log(message) {
   console.log(timestamp() + ": " + message);
 }
 
+// TODO: Notify when we notice that streams went live.
 function notify() {
   chrome.notifications.create("bla", {
     "type": "basic", "iconUrl": "img/icon.svg", "title": "remove channel",
@@ -21,20 +22,19 @@ function Channel(name) {
 
 Channel.prototype = {
   pollState: function() {
-    var deferred = $.Deferred();
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://api.twitch.tv/kraken/streams/" + this.name);
-    xhr.responseType = "json";
-    xhr.onload = function() {
-      deferred.resolve(xhr.response);
-    };
-    xhr.send();
-    return deferred.promise();
-
-    // return $.ajax({
-    //   "url": "https://api.twitch.tv/kraken/streams/" + this.name,
-    //   "dataType": "json"
-    // });
+    return $.ajax({
+      "url": "https://api.twitch.tv/kraken/streams/" + this.name,
+      "dataType": "json"
+    }).done(function(data) {
+      var stream = data.stream;
+      if (stream) {
+        this.viewers = stream.viewers;
+        this.isLive = true;
+      } else {
+        this.viewers = 0;
+        this.isLive = false;
+      }
+    }.bind(this));
   }
 }
 
@@ -91,15 +91,13 @@ Channels.prototype = {
   },
 
   restore: function() {
-    var this_ = this;
+    var this_ = this; // so we don't have to .bind twice
     chrome.storage.sync.get({"channels": []}, function(result) {
       result.channels.forEach(function(name, idx) {
-        log("restore: " + name);
         this_.channelList_.push(new Channel(name));
       });
-      // TODO: REMOVE THIS!
       channels.poll();
-    });
+    }.bind(this));
   },
 
   save_: function() {
@@ -118,14 +116,11 @@ Channels.prototype = {
     this.foreach(function(channel) {
       promises.push(channel.pollState());
     });
-    $.when.apply($, promises).done(function(channelStates) {
-      for (key in channelStates) {
-        var state = channelStates[key];
-        log(key + " - " + state);
-      }
-    });
-
-    this.signalChange_();
+    $.when.apply($, promises).done(function() {
+      // The channel states are resolved in the Channel object, so we only need
+      // to inform the UI about the fact that channel states were updated here.
+      this.signalChange_();
+    }.bind(this));
   },
 
   onchange: function(callback) {
@@ -150,7 +145,7 @@ chrome.runtime.onInstalled.addListener(init);
 chrome.runtime.onStartup.addListener(init);
 chrome.alarms.onAlarm.addListener(function(alarm) {
   if (alarm.name == "pollChannelStates") {
-    // channels.poll();
+    channels.poll();
   }
 });
 

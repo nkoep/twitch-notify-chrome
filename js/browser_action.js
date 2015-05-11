@@ -1,5 +1,3 @@
-// Copyright (c) 2015 Niklas Koep
-
 function getChannels(callback) {
   chrome.runtime.getBackgroundPage(function(page) {
     callback(page.channels);
@@ -44,10 +42,10 @@ function updateChannelList(channels) {
   }
 }
 
-function registerUiCallbacks() {
+function initializeUi() {
   var addChannel = $("#add-channel");
+  var channelInput = $("#channel input");
   addChannel.click(function() {
-    var channelInput = $("#channel input");
     var channel = channelInput.val();
     getChannels(function(channels) {
       if (channels.addChannel(channel)) {
@@ -61,15 +59,16 @@ function registerUiCallbacks() {
     // signal handler.
     addChannel.click();
   });
-  var enableNotifications = $("#enable-notifications");
-  enableNotifications.checkbox("setting", "onChange", function() {
-    var state = enableNotifications.checkbox("is checked");
+  var showNotifications = $("#show-notifications");
+  showNotifications.checkbox("setting", "onChange", function() {
+    var state = showNotifications.checkbox("is checked");
     console.log("TODO: toggle notifications");
   });
+  channelInput.focus();
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  registerUiCallbacks();
+  initializeUi();
 
   getChannels(function(channels) {
     // Update the channel list on changes.
