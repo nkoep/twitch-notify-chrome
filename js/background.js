@@ -7,8 +7,17 @@ function log(message) {
 }
 
 function updateBrowserAction(channels) {
-  var icon = (channels.length > 0) ? "twitch" : "twitch_gray";
-  chrome.browserAction.setIcon({"path": "img/" + icon + ".png"});
+  var action = chrome.browserAction, icon, text;
+  action.setBadgeBackgroundColor({"color": [100, 65, 165, 175]});
+  if (channels.length > 0) {
+    icon = "twitch";
+    text = channels.length.toString();
+  } else {
+    icon = "twitch_gray";
+    text = "";
+  }
+  action.setIcon({"path": "img/" + icon + ".png"});
+  action.setBadgeText({"text": text});
 }
 
 function sendChannelNotification(channels) {
@@ -19,10 +28,10 @@ function sendChannelNotification(channels) {
   if (channels.length > 0) {
     if (channels.length === 1) {
       var title = "New channel is live";
-      var message = " is now streaming";
+      var message = " is streaming";
     } else {
       var title = "New channels are live";
-      var message = " are now streaming";
+      var message = " are streaming";
     }
     chrome.storage.local.get({"show-notifications": true}, function(result) {
       if (result["show-notifications"]) {
