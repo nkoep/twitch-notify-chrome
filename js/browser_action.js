@@ -12,8 +12,8 @@ function createTableRow(name, isLive, viewers) {
   var a = $("<a href='" + baseUrl + name + "' target='_blank'>");
   var tdChannel = $("<td>").append(a.text(name));
   var tdViewers = $("<td class='collapsing'>");
-  tdViewers.append($("<i class='users icon " + color + "'>")).append(
-    viewers.toLocaleString());
+  var aViewers = a.clone().text(viewers.toLocaleString());
+  tdViewers.append($("<i class='users icon " + color + "'>")).append(aViewers);
   var tdRemoveChannel = $("<td class='collapsing'>");
   var iRemoveChannel = $("<i class='remove user icon'>");
   var divRemoveChannelButton = $(
