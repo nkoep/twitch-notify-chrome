@@ -20,7 +20,7 @@ function updateBrowserAction(channels) {
   action.setBadgeText({"text": text});
 }
 
-function sendChannelNotification(channels) {
+function sendNotification(channels) {
   var channelNames = [];
   channels.forEach(function(channel, idx) {
     channelNames.push(channel.name);
@@ -128,7 +128,7 @@ Channels.prototype = {
         this_.channelList_.push(new Channel(name));
       });
       channels.poll();
-    }.bind(this));
+    });
   },
 
   save_: function() {
@@ -166,7 +166,7 @@ Channels.prototype = {
         }
       });
       updateBrowserAction(liveChannels);
-      sendChannelNotification(newlyLiveChannels);
+      sendNotification(newlyLiveChannels);
 
       // The channel states are resolved in the Channel object, so we only need
       // to inform the UI about the fact that channel states were updated here.
