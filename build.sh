@@ -18,7 +18,8 @@ function move() {
 
 # Directory definitions
 basedir=$(pwd)
-semanticdir="$basedir/bower/semantic-ui"
+bowerdir="$basedir/bower_components"
+semanticdir="$bowerdir/semantic-ui"
 builddir="$semanticdir/dist"
 
 # Download semantic-ui
@@ -76,7 +77,6 @@ cp "$builddir/semantic.min.css" css/
 mkdir -p css/themes/
 cp -R "$builddir/themes/default" css/themes/
 
-# Install jquery
-bower install jquery
-cp bower/jquery/dist/jquery.min.js js/
+# Install jquery (gets fetched as a dependency of semantic-ui anyway)
+cp "$bowerdir/jquery/dist/jquery.min.js" js/
 
