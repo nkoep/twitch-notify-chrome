@@ -76,3 +76,7 @@ cp "$builddir/semantic.min.css" css/
 mkdir -p css/themes/
 cp -R "$builddir/themes/default" css/themes/
 
+# Install jquery
+bower install jquery
+cp bower/jquery/dist/jquery.min.js js/
+
