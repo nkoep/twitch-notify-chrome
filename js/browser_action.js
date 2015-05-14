@@ -6,7 +6,7 @@ function getChannels(callback) {
 
 // TODO: Use underscore.js' template system to generate the table.
 function createTableRow(name, isLive, viewers) {
-  var color = isLive ? "red" : "gray";
+  var color = isLive ? "bright-red" : "gray";
   var baseUrl = "https://twitch.tv/";
   var tr = $("<tr>");
   var a = $("<a href='" + baseUrl + name + "' target='_blank'>");

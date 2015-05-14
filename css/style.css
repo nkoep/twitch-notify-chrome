@@ -21,3 +21,11 @@ a:active {
   text-align: center;
 }
 
+i.gray.icon {
+  color: #a6a6a6 !important;
+}
+
+i.bright-red.icon {
+  color: #ff0000 !important;
+}
+
