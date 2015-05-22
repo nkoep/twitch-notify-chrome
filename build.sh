@@ -2,19 +2,26 @@
 
 set -e
 
-function die() {
-    echo $*
-    exit 1
+die() {
+  echo $*
+  exit 1
 }
 
-function move() {
-    if [[ $# -ne 2 ]]; then
-        die "Not enough arguments to function `move`"
-    fi
-    if [[ -e $1 ]]; then
-        mv "$1" "$2"
-    fi
+move() {
+  if [[ $# -ne 2 ]]; then
+    die "Not enough arguments to function `move`"
+  fi
+  if [[ -e $1 ]]; then
+    mv "$1" "$2"
+  fi
 }
+
+# Check if npm, bower and gulp can be found in PATH.
+for p in npm bower gulp; do
+  if [[ ! -f $(which $p 2>/dev/null) ]]; then
+    die "\`$p\` not found in \$PATH"
+  fi
+done
 
 # Directory definitions
 basedir=$(pwd)
