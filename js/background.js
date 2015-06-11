@@ -125,7 +125,9 @@ Channels.prototype = {
     var this_ = this; // so we don't have to .bind twice
     chrome.storage.sync.get({"channels": []}, function(result) {
       result.channels.forEach(function(name, idx) {
-        this_.channelList_.push(new Channel(name));
+        if (this_.find_(name) === -1) {
+          this_.channelList_.push(new Channel(name));
+        }
       });
       channels.poll();
     });
