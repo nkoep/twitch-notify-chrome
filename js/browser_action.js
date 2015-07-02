@@ -65,22 +65,19 @@ function initializeUi() {
   //       chrome.storage.
   chrome.storage.local.get({"show-notifications": false}, function(result) {
     var state = result["show-notifications"] ? "check" : "uncheck";
-    // FIXME: There is a bug in semantic-ui's 1.12.2 button module that
-    //        prevents the checkbox state to be set programmatically.
+    // FIXME: Since the storage API is asynchronous, the checkbox state will
+    //        usually be set when the UI is already visible.
     showNotifications.checkbox(state);
   });
-  showNotifications.checkbox("setting", "onChange", function() {
+  showNotifications.checkbox({"onChange": function() {
     var state = showNotifications.checkbox("is checked");
-    // XXX: Remove this once the bug in semantic-ui is fixed.
-    state = true;
     chrome.storage.local.set({"show-notifications": state});
-  });
+  }});
   channelInput.focus();
 }
 
 document.addEventListener("DOMContentLoaded", function() {
   initializeUi();
-
   getChannels(function(channels) {
     // Update the channel list on changes.
     channels.onchange(updateChannelList);
