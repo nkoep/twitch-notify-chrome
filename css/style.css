@@ -17,8 +17,13 @@ a:active {
 }
 
 .ui.table th,
-.ui.table td {
+.ui.table td,
+.ui.table thead th {
   text-align: center;
+}
+
+.ui.table td {
+  padding: .5em;
 }
 
 i.gray.icon {
@@ -27,5 +32,9 @@ i.gray.icon {
 
 i.bright-red.icon {
   color: #ff0000 !important;
+}
+
+.ui.tiny.button {
+  font-size: .85em;
 }
 
