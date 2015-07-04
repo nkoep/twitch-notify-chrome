@@ -7,15 +7,6 @@ die() {
   exit 1
 }
 
-move() {
-  if [[ $# -ne 2 ]]; then
-    die "Not enough arguments to function `move`"
-  fi
-  if [[ -e $1 ]]; then
-    mv "$1" "$2"
-  fi
-}
-
 # Check if npm, bower and gulp can be found in PATH.
 for p in npm bower gulp; do
   if [[ ! -f $(which $p 2>/dev/null) ]]; then
@@ -36,9 +27,8 @@ npm install --ignore-scripts
 
 # Configure semantic-ui
 cp "$basedir/rc/semantic.json" .
-move src/theme.config.example src/theme.config
-move src/_site src/site
-# Override device breakpoints to force desktop sizes
+cp src/theme.config.example src/theme.config
+cp -R src/_site src/site
 cp "$basedir/rc/site.variables" src/site/globals/
 
 # Build semantic-ui
