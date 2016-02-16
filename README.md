@@ -19,5 +19,5 @@ $ ./build.sh
 ```
 to build the extension. To install it in Chrome, go to `chrome://extensions`,
 make sure the `Developer mode` box is checked, and use the `Load unpacked
-extension...` button to install in extension.
+extension...` button to install the extension.
 

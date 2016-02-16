@@ -9,7 +9,7 @@ die() {
 
 # Check if npm, bower and gulp can be found in PATH.
 for p in npm bower gulp; do
-  if [[ ! -f $(which $p 2>/dev/null) ]]; then
+  if [ ! -f $(which $p 2>/dev/null) ]; then
     die "\`$p\` not found in \$PATH"
   fi
 done
