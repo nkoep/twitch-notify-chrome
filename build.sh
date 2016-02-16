@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -o errexit
 
 die() {
   echo $*
@@ -17,11 +17,11 @@ done
 # Directory definitions
 basedir=$(pwd)
 bowerdir="$basedir/bower_components"
-semanticdir="$bowerdir/semantic-ui"
+semanticdir="$bowerdir/semantic"
 builddir="$semanticdir/dist"
 
 # Download semantic-ui
-bower install semantic-ui
+bower install semantic
 cd $semanticdir
 npm install --ignore-scripts
 
