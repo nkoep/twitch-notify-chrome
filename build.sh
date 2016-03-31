@@ -43,7 +43,7 @@ cd "$basedir"
 # Install semantic-ui
 mkdir -p "$outdir"
 
-cp -R js css "$outdir"
+cp -R js css img "$outdir"
 cp *.html *.json "$outdir"
 
 cp "$builddir/semantic.min.js" "$outdir/js"
