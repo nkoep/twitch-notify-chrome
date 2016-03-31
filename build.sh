@@ -48,7 +48,7 @@ cp *.html *.json "$outdir"
 
 cp "$builddir/semantic.min.js" "$outdir/js"
 cp "$builddir/semantic.min.css" "$outdir/css"
-mkdir "$outdir/css/themes"
+mkdir -p "$outdir/css/themes"
 cp -R "$builddir/themes/default" "$outdir/css/themes"
 
 # Install jquery (gets fetched as a dependency of semantic-ui anyway)
