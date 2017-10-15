@@ -1,3 +1,5 @@
+const CLIENT_ID = "2r4xvju8u1c1yqhficmwahwudcnics";
+
 function timestamp() {
   return Date.now();
 }
@@ -54,12 +56,13 @@ function Channel(name) {
 Channel.prototype = {
   pollState: function() {
     return $.ajax({
-      "url": "https://api.twitch.tv/kraken/streams/" + this.name,
-      "dataType": "json"
+      "url": "https://api.twitch.tv/helix/streams",
+      "data": {"user_login": this.name},
+      "headers": {"Client-ID": CLIENT_ID}
     }).done(function(data) {
-      var stream = data.stream;
-      if (stream) {
-        this.viewers = stream.viewers;
+      streams = data.data;
+      if (streams.length > 0) {
+        this.viewers = streams[0].viewer_count;
         this.isLive = true;
       } else {
         this.viewers = 0;
@@ -201,4 +204,3 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
     channels.poll();
   }
 });
-
