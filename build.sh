@@ -8,16 +8,16 @@ die() {
 }
 
 if [ $# -ne 1 ]; then
-  die "Output directory required"
+  die "One argument required (output directory)"
 fi
 outdir="$1"
 
-# Check if npm, bower and gulp can be found in PATH.
-for p in npm bower gulp; do
-  if [ ! -f $(which $p 2>/dev/null) ]; then
-    die "\`$p\` not found in \$PATH"
-  fi
+# Check if the necessary command-line tools can be found in PATH.
+for p in npm gulp; do
+  command -v $p >/dev/null 2>&1 || { die "\`$p\` not found in PATH"; }
 done
+
+npm install
 
 # Directory definitions
 basedir="$(pwd)"
@@ -26,7 +26,7 @@ semanticdir="$bowerdir/semantic"
 builddir="$semanticdir/dist"
 
 # Download semantic-ui
-bower install semantic
+npm run bower -- install semantic
 cd "$semanticdir"
 npm install --ignore-scripts
 
@@ -44,7 +44,7 @@ cd "$basedir"
 mkdir -p "$outdir"
 
 cp -R js css img "$outdir"
-cp *.html *.json "$outdir"
+cp *.html manifest.json "$outdir"
 
 cp "$builddir/semantic.min.js" "$outdir/js"
 cp "$builddir/semantic.min.css" "$outdir/css"
@@ -53,4 +53,3 @@ cp -R "$builddir/themes/default" "$outdir/css/themes"
 
 # Install jquery (gets fetched as a dependency of semantic-ui anyway)
 cp "$bowerdir/jquery/dist/jquery.min.js" "$outdir/js"
-

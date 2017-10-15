@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Twitch Notify",
-  "description": "This extension notifies you when Twitch streams go live",
+  "description": "This extension notifies you when Twitch channels go live",
   "version": "0.1",
   "permissions": [
     "activeTab",
@@ -25,4 +25,3 @@
     "persistent": true
   }
 }
-
