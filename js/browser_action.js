@@ -8,12 +8,16 @@ function getChannels(callback) {
 function createTableRow(name, isLive, viewers) {
   var color = isLive ? "bright-red" : "gray";
   var baseUrl = "https://twitch.tv/";
+
   var tr = $("<tr>");
-  var a = $("<a href='" + baseUrl + name + "' target='_blank'>");
+
+  var a = $("<a>").attr("href", baseUrl + name).attr("target", "_blank");
   var tdChannel = $("<td>").append(a.text(name));
+
   var tdViewers = $("<td class='collapsing'>");
   var aViewers = a.clone().text(viewers.toLocaleString());
   tdViewers.append($("<i class='users icon " + color + "'>")).append(aViewers);
+
   var tdRemoveChannel = $("<td class='collapsing'>");
   var iRemoveChannel = $("<i class='remove user icon'>");
   var divRemoveChannelButton = $(
@@ -21,6 +25,7 @@ function createTableRow(name, isLive, viewers) {
   divRemoveChannelButton.data("name", name);
   tdRemoveChannel.append(
     divRemoveChannelButton.append(iRemoveChannel));
+
   tr.append(tdChannel, tdViewers, tdRemoveChannel);
   return tr;
 }
